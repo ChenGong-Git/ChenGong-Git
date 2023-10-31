@@ -1,0 +1,12 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8082
+dubbo:
+  application:
+    name: item-consumer
+  registry:
+    address: zookeeper://localhost:2181
+  protocol:
+    name: dubbo
+    port: 20888
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cg.dao.ItemMapper">
+
+    <resultMap type="com.cg.entity.Item" id="ItemMap">
+        <result property="itemid" column="itemid" jdbcType="INTEGER"/>
+        <result property="itemname" column="itemname" jdbcType="VARCHAR"/>
+        <result property="typeid" column="typeid" jdbcType="INTEGER"/>
+        <result property="necessary" column="necessary" jdbcType="INTEGER"/>
+        <result property="ref" column="ref" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="NUMERIC"/>
+        <result property="info" column="info" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteItem" parameterType="Integer">
+        delete from item where itemid = #{itemid}
+    </delete>
+
+    <select id="findItemByTypeId" resultType="com.cg.entity.Item">
+        SELECT
+            i.itemid,
+            i.`typeid`,
+            i.`itemname`,
+            i.`price`,
+            i.`necessary`,
+            i.`ref`,
+            i.info,
+            it.`typeid`,
+            it.`typename`
+        FROM
+            item i,itemtypes it
+        WHERE
+            i.`typeid`=it.`typeid`
+            <if test="typeid!=null">
+                AND it.typeid = #{typeid}
+            </if>
+    </select>
+
+    <resultMap id="itemVoMap" type="com.cg.vo.ItemVo">
+        <id property="itemid" column="itemid"/>
+        <result property="itemTypeName" column="typename"/>
+    </resultMap>
+
+    <select id="findByTypeId" resultMap="itemVoMap" parameterType="Integer">
+        SELECT
+            i.itemid,
+            i.`typeid`,
+            i.`itemname`,
+            i.`price`,
+            i.`necessary`,
+            i.`ref`,
+            i.info,
+            it.`typeid`,
+            it.`typename`
+        FROM
+            item i,itemtypes it
+        WHERE
+            i.`typeid`=it.`typeid`
+        AND
+            i.itemid = #{itemid}
+    </select>
+
+
+    <update id="updateItemByitemId" parameterType="com.cg.entity.Item">
+        UPDATE item SET
+                itemname = #{itemname},
+                typeid = #{typeid},
+                necessary=#{necessary},
+                `ref`=#{ref},
+                price=#{price},
+                info=#{info}
+        WHERE	itemid = #{itemid};
+    </update>
+
+
+</mapper>
+

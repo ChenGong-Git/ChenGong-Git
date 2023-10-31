@@ -1,0 +1,27 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/projectmanager?serverTimezone=Asia/Shanghai
+    username: root
+    password: password
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    auto-mapping-behavior: full
+  type-aliases-package: com.cg.entity
+logging:
+  level:
+    com:
+      cg:
+        dao: debug
+#注册中心相关配置
+dubbo:
+  registry:
+    address: zookeeper://localhost:2181
+  application:
+    name: item-provider
+  protocol:
+    port: 20888
+    name: dubbo
